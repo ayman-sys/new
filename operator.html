@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Panel</title>
+    <link href="../common/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="./operator.css">
+  </head>
+
+  <body>
+    <div class="container-fluid livis-page" id="livis-body">
+      <div class="livis-operator-page">
+        <div id="livis-header"></div>
+        <div class="livis-operator-header row">
+          <div class="operator-header-content">
+            <div class="livis-logo-part-wrap">
+              <div class="livis-operator-logo">
+                <div class="dropdown">
+                  <div id="livis-opertor-menu" class="livis-opertor-menu-dropdown" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img class="livis-logo" src="../common/image/livis-logo.svg" id="company-logo" />
+                    <img class="livis-operator-menu-icon" src="../common/image/dropdown-down-icon.svg" />
+                  </div>
+                  <div class="dropdown-menu livis-operator-menu-dropdown p-0" aria-labelledby="livis-opertor-menu">
+                    <div class="livis-operator-menu-wrap">
+                      <div class="livis-operator-menu-group">
+                        <div class="livis-operator-menu">
+                          <a data-i18n="go_to_home" href="../home/home.html">Go To Home</a>
+                        </div>
+                        <div class="livis-operator-menu-border">
+                        </div>
+                        <div class="livis-operator-menu">
+                          <a data-i18n="inspection_report" href="../reports/reports.html">Inspection Report</a>
+                        </div>
+                        <!-- <div class="livis-operator-menu" onclick="showInspectionSummaryModal()">
+                        <a data-i18n="inspection_summary" href="#">Inspection Summary</a>
+                      </div> -->
+                        <div class="livis-operator-menu-border">
+                        </div>
+                        <div class="livis-operator-menu" id="threshold-menu" onclick="openThresholdModal()">
+                          <a data-i18n="class_threshold" href="#">Class Threshold</a>
+                          <!-- <span class="livis-operator-menu-shortcut">⌃⌘Q</span> -->
+                        </div>
+                        <div class="livis-operator-menu">
+                          <a data-i18n="system_info" href="../health-check/health.html">System Info</a>
+                        </div>
+                        <div class="livis-operator-menu">
+                          <a data-i18n="software_update" href="../software-update/update.html">Software Update</a>
+                        </div>
+                        <div class="livis-operator-menu">
+                          <a data-i18n="restart_app" href="#" onclick="restart()">Restart App</a>
+                        </div>
+                        <!-- <div class="livis-operator-menu-border">
+                      </div>
+                      <div class="livis-operator-menu">
+                        <a data-i18n="recent_inspection" href="#">Recent Inspection</a>
+                      </div>
+                      <div class="livis-operator-menu-border"></div>
+                      <div class="livis-operator-menu">
+                        <a data-i18n="full_screen" href="#">Full Screen</a>
+                      </div>
+                      <div class="livis-operator-menu-border"></div>
+                      -->
+                        <div class="livis-operator-menu" onclick="quitapp()">
+                          <a data-i18n="exit_app" href="#">Exit App</a>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="livis-operator-partname">
+                <p data-i18n="sample_part_name" id="part-name" class="d-none">Sample Part Name</p>
+                <p id="part-number" class="d-none"> </p>
+              </div>
+            </div>
+            <div class="livis-batch-wrap">
+              <div class="dropdown h-100 d-flex justify-content-center align-items-center">
+                <a id="livis-opertor-batch" class="livis-opertor-batch" data-bs-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false" onclick="openUpdateBatchSizePopUp()">
+                  <span data-i18n="batch">Batch : </span>
+                  <span id="livis-batch-id">BAT0005 / </span>
+                  <span id="livis-current-batch-size">116 </span>
+                  <span id="livis-batch-size"><span data-i18n="of">of</span> 1250 </span>
+                  <img class="livis-operator-menu-icon" src="../common/image/dropdown-down-icon.svg" />
+                </a>
+                <div class="dropdown-menu" aria-labelledby="livis-opertor-batch">
+                  <div class="livis-edit-batch-form-wrap">
+                    <div class="livis-edit-batch-heading">
+                      <p data-i18n="please_fill_your_batch_details">Please fill your batch details</p>
+                      <p data-i18n="save_or_undo">You can choose to save your changes, or you can also undo this action.
+                      </p>
+                    </div>
+                    <div class="livis--batch-form">
+                      <form id="livis-login-form">
+                        <div class="form-floatin mt-3">
+                          <span data-i18n="batch_id" class="livis-input-label">Batch ID:</span>
+                          <input type="text" value="BAT005" class="form-control input-text" id="update-batch-id"
+                            placeholder="" disabled>
+                        </div>
+
+                        <div class="form-floatin  mt-3">
+                          <span data-i18n="batch_size" class="livis-input-label">Batch Size:</span>
+                          <input value="" type="text" class="form-control input-text" name="batch_size"
+                            id="update-batch-size" placeholder="">
+                        </div>
+                        <div class="d-flex justify-content-center" id="login-failed-msg">
+
+                        </div>
+                        <div class="livis-batch-action-wrap">
+                          <div class="livis-batch-reset">
+                            <!-- <button data-i18n="clear_btn" type="reset" class="btn">Clear</button> -->
+                          </div>
+                          <div class="livis-batch-cancel-sumit">
+                            <button data-i18n="cancel_btn" type="button" class="btn livis-batch-cancel">Cancel</button>
+                            <button data-i18n="update" type="button" class="btn livis-batch-update"
+                              onclick="updateBatchSize()">Update</button>
+
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="livis-action-wrap">
+              <span data-i18n="calibration_mode" class="pe-2">Calibration Mode</span>
+
+              <label class="switch">
+                <input type="checkbox" id="calibration-status-switch">
+                <span class="slider round"></span>
+              </label>
+              <div class="livis-health-action ps-2" id="health-check">
+                <button class="btn" onclick="openhealthModal();" type="button"><span data-i18n="health">Health</span>
+                  <img src="../common/image/health-icon.svg" /></button>
+              </div>
+              <div class="livis-threshold-action ps-2" id="threshold-menu">
+                <button class="btn" id="threshold-button" onclick="openThresholdModal();" type="button">Threshold <img
+                    src="../common/image/health-icon.svg" /></button>
+              </div>
+              <!-- <div class="livis-notification-action">
+              <a><img src="../common/image/bail-icon.svg" /></a>
+            </div>
+            <div class="livis-profile-action">
+              <a><img src="../common/image/user-icon.svg" /></a>
+            </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="livis-operator-main">
+          <div class="livis-operator-camera-wrap ">
+            <div class="d-flex w-100 justify-content-start align-items-center position-camera-title d-none">
+              <div data-i18n="positions" class="w-25">
+                Positions :
+              </div>
+              <div id="camera-model" class="w-75 ms-3">
+
+              </div>
+            </div>
+            <div class="d-flex w-100 justify-content-start align-items-center position-camera-title d-none">
+              <div data-i18n="cameras" class="w-25">
+                Cameras :
+              </div>
+
+              <div id="camera-position" class="w-75 ms-3">
+
+              </div>
+            </div>
+            <div class="d-flex w-100 justify-content-start align-items-center position-camera-title "
+              id="unique-serial-number">
+              <div class="w-25">
+                <h6>Unique Serial Number :</h6>
+              </div>
+              <div class="w-75 ms-3">
+                <h6 id="source-details"> -- </h6>
+              </div>
+            </div>
+
+            <div class="d-flex row align-items-center">
+              <div class="col-md-9 d-flex justify-content-start align-content-center overflow-auto " id="waypoints-wrap"
+                style="color: white;">
+                <h6 data-i18n="positions" class="d-flex align-items-center" style="color: black;">Positions:</h6>
+
+              </div>
+              <div class="d-flex col-md-3 justify-content-end">
+                <div class="mx-3 grid-list-icon active" onclick="changeViewType('normal')" id="normal"><span
+                    data-i18n="grid">Grid</span> <img class="ps-2" src="../common/image/Grid.svg" /></div>
+                <div class="mx-3 grid-list-icon" onclick="changeViewType('grid')" id="grid"><span
+                    data-i18n="list">List</span> <img class="ps-2" src="../common/image/List.svg" /></div>
+                <div class="mx-3 grid-list-icon" onclick="changeViewType('all')" id="all"><span
+                    data-i18n="all">All</span> <img class="ps-2" src="../common/image/ri_stack-fill.svg" /></div>
+              </div>
+            </div>
+
+            <div id="camera-feed" class="livis-operator-builder-img-feed">
+            </div>
+            <div class="livis-operator-builder-pagination " id="camera-feed-pagination">
+              1 / 1
+            </div>
+            <div class="operator-panel-feed-pagination-left-wrap " id="operator-panel-feed-pagination-left">
+              <img src="../common/image/chevron_white_left.svg" alt="">
+            </div>
+            <div class="operator-panel-feed-pagination-right-wrap " id="operator-panel-feed-pagination-right">
+              <img src="../common/image/chevron_white_right.svg" alt="">
+            </div>
+          </div>
+          <div class="livis-operator-result-wrap">
+            <div class="livis-operator-result w-100">
+              <div class="livis-inspection-action-wrap w-100">
+                <div class="livis-process-button-wrap w-50 px-2 m-0" id="start-process-wrap">
+                  <button type="button" class="btn w-100 py-3" id="start-process">Start
+                    Process</button>
+                </div>
+                <div class="livis-end-process-button-wrap w-50 px-2 m-0 d-none" id="end_process_box">
+                  <button type="button" class="btn w-100 py-3  d-none" id="end-process">Stop
+                    Process</button>
+                </div>
+                <div class="livis-inspection-button-wrap w-50 px-2 m-0" id="inspect_box">
+                  <button type="button" class="btn  w-100 py-3" id="inspect" disabled
+                    onclick="inspect()">Inspect</button>
+                </div>
+                <div class="livis-inspection-button-wrap  w-50 px-2 m-0 d-none" id="start_inspect_box">
+                  <button type="button" class="btn  w-100 py-3" id="startinspect" disabled
+                    onclick="startinspect()">Start
+                    Inspect</button>
+                </div>
+                <div class="livis-inspection-button-wrap  w-50 px-2 m-0 d-none" id="stop_inspect_box">
+                  <button type="button" class="btn  w-100 py-3" id="stopinspect" disabled onclick="stopinspect()">Stop
+                    Inspect</button>
+                </div>
+              </div>
+              <div class="livis-inspection-action-wrap w-100 d-none">
+                <div class="retry-process-button-wrap w-100 px-2 m-0" id="retry-process-wrap">
+                  <button data-i18n="retry" type="button" class="btn w-100 py-3" id="retry-inspect"
+                    onclick="inspect(true)">Retry</button>
+                </div>
+              </div>
+
+              <div class="livis-status-wrap mb-3" id="status-bar">
+                READY TO INSPECT
+              </div>
+
+              <div class="livis-inspection-stats-wrap">
+                <div class="accordion" id="livis-manual-override-accordian">
+                  <div class="livis-inspection-stats-option  w-100" id="livis-manual-override">
+                    <div class="" id="livis-heading-manual-override">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        id="livis-manual-override-btn" data-bs-target="#manual-override" aria-expanded="false"
+                        aria-controls="manual-override" disabled>
+                        Manual Overide
+                      </button>
+                    </div>
+                    <div id="manual-override" class="accordion-collapse collapse "
+                      aria-labelledby="livis-heading-manual-override" data-bs-parent="#livis-manual-override-accordian">
+                      <div class="accordion-body livis-collapse-content">
+                        <div class="livis-recent-inspections-wrap">
+                          <div class="livis-recent-inspections-main">
+                            <div class="table-responsive">
+                              <div class="row m-0">
+                                <div class="col-md-5 rejected">
+                                  <button type="button" class="btn btn-secondary operator-panel-secondary-btn w-100 "
+                                    id="manual-override-reject" onclick="updateManualOveride(false)"
+                                    data-bs-dismiss="modal">Reject</button>
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5 accepted">
+                                  <button type="button" class="btn btn-primary operator-panel-primary-btn w-100 "
+                                    id="manual-override-accept" onclick="updateManualOveride(true)">Accept</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="livis-inspection-stats-option d-none w-100" id="inspection-result-accordian-wrap">
+                    <div class="" id="livis-heading-result">
+                      <button data-i18n="inspection_result_btn" class="accordion-button" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#inspection-result" aria-expanded="false"
+                        aria-controls="inspection-result" id="inspection-result-text">
+                        Inspection Result
+                      </button>
+                    </div>
+                    <div id="inspection-result" class="accordion-collapse collapse show"
+                      aria-labelledby="livis-heading-result" data-bs-parent="#livis-result-accordian">
+                      <div class="accordion-body livis-collapse-content">
+                        <div class="livis-defect-feature-result">
+                          <div class="livis-defect-container" id="livis-defect-container">
+                            <div class="livis-defect-wrap" id="livis-defect-wrap">
+                              <div class="livis-defect-header">
+                                <p>Defects
+                                  <!-- (<text id="defect_count">0</text>) -->
+                                </p>
+                              </div>
+                              <div class="livis-defect-body" id="defects-wrap">
+                                <div class="livis-defect-item">
+                                  <p></p>
+                                  <p>--</p>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-container" id="livis-feature-container">
+                            <div class="livis-feture-wrap" id="livis-feture-wrap">
+                              <div class="livis-feature-header">
+                                <p>Feature
+                                  <!-- (<text id="feature_count">0</text>) -->
+                                </p>
+                              </div>
+                              <div class="livis-feature-body" id="features-wrap">
+                                <div class="livis-defect-item">
+                                  <p></p>
+                                  <p>--</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3" id="livis-reject-reason">
+                            <div class="livis-defect-header">
+                              <p data-i18n="reject_reasons">Reject Reasons</p>
+                            </div>
+                            <div class="livis-defect-body" id="livis-reject-reason-block">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p>--</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3" id="livis-ocr-wrap">
+                            <div class="livis-defect-header">
+                              <p data-i18n="ocr_details">OCR Details</p>
+                            </div>
+                            <div class="livis-defect-body">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p id="ocr-result">--</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3" id="livis-barcode-wrap">
+                            <div class="livis-defect-header">
+                              <p data-i18n="barcode_details">Barcode Details</p>
+                            </div>
+                            <div class="livis-defect-body">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p id="bar-result">--</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3" id="livis-pd-wrap">
+                            <div class="livis-defect-header">
+                              <p data-i18n="pd_details">PD Details</p>
+                            </div>
+                            <div class="livis-defect-body">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p id="pd-result">--</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="livis-inspection-stats-option  w-100">
+                    <div class="" id="livis-heading-result-count">
+                      <button data-i18n="inspection_count_btn" class="accordion-button" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#inspect-result-count" aria-expanded="falsedd"
+                        aria-controls="inspect-result-count" id="inspection-count">
+                        Inspection Count
+                      </button>
+                    </div>
+                    <div id="inspect-result-count" class="accordion-collapse collapse show"
+                      aria-labelledby="livis-heading-result-count" data-bs-parent="#livis-result-accordian">
+                      <div class="accordion-body livis-collapse-content">
+                        <div class="livis-inspect-count-wrap">
+                          <div class="livis-inspect-count-header">
+                            <span data-i18n="todays">Today's</span>
+                          </div>
+                          <div class="livis-inspect-count-main">
+                            <div class="livis-inspect-accept-reject">
+                              <div class="livis-inspect-accept" id="livis-inspect-accept">
+                                <p data-i18n="accepted">Accepted</p>
+                                <p id="accepted-count">10</p>
+                              </div>
+                              <div class="livis-inspect-reject" id="livis-inspect-reject">
+                                <p data-i18n="rejected">Rejected</p>
+                                <p id="rejected-count">5</p>
+                              </div>
+                            </div>
+                            <div class="livis-inspect-reject" id="livis-inspect-abort">
+                              <p data-i18n="aborted" class="text-end">Aborted</p>
+                              <p class="text-end" id="aborted-count">5</p>
+                            </div>
+                            <div class="livis-inspect-total" id="livis-inspect-total">
+                              <p data-i18n="total_inspect_count">Total Inspect Count</p>
+                              <div class="">
+                                <p class="livis-total-scan" id="current-batch-count">15</p>
+                                <p class="livis-total-batch" id="total-count">/100</p>
+
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3"
+                            id="livis-cycle-time-wrap">
+                            <div class="livis-defect-header">
+                              <p data-i18n="average_cycle_time">Average Cycle Time</p>
+                            </div>
+                            <div class="livis-defect-body" id="cycle-time-wrap">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p>00</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="livis-defect-wrap livis-inspection-result-ocr-wrap mt-3"
+                            id="livis-yield-pass-wrap">
+                            <div class="livis-defect-header">
+                              <p data-i18n="first_time_yield_pass">First Time Yield Pass</p>
+                            </div>
+                            <div class="livis-defect-body">
+                              <div class="livis-defect-item my-3">
+                                <p></p>
+                                <p>00</p>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="livis-inspection-stats-option  w-100" id="livis-past5-inspections">
+                    <div class="" id="livis-heading-recent-inspection">
+                      <button data-i18n="inspection_history_btn" class="accordion-button" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#inspect-recent-inspection" aria-expanded="falsedd"
+                        aria-controls="inspect-recent-inspection" id="inspection-history">
+                        Inspection History
+                      </button>
+                    </div>
+                    <div id="inspect-recent-inspection" class="accordion-collapse collapse "
+                      aria-labelledby="livis-heading-recent-inspection" data-bs-parent="#livis-result-accordian">
+                      <div class="accordion-body livis-collapse-content">
+                        <div class="livis-recent-inspections-wrap">
+                          <div class="livis-recent-inspections-header">
+                            <span data-i18n="inspection_summary">Inspection Summary</span>
+                          </div>
+                          <div class="livis-recent-inspections-main">
+                            <div class="table-responsive">
+                              <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th data-i18n="time" scope="col">Time</th>
+                                    <th data-i18n="batch" scope="col">Batch</th>
+                                    <th data-i18n="status" scope="col">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="recent-inspection">
+
+                                </tbody>
+                              </table>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spinner-body d-none" id="spinner">
+      <div class="modal d-block w-100 h-100" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div id="livis-header"></div>
+            <div class="livis-inner-page-header-wrap">
+              <div class="livis-inner-page-header row">
+                <div class="livis-inner-page-header-left">
+                  <div class="livis--inner-header-back-btn">
+                    <a href="../home/home.html"><img src="../common/image/arrow.svg" /></a>
+                  </div>
+                  <div class="livis-inner-header-title">
+                    <p data-i18n="home">Home</p>
+                  </div>
+                </div>
+                <div class="livis-inner-page-header-right">
+                  <!-- <a href="../notification/notification.html" class="livis-inner-header-notification">
+                                                                <img src="../common/image/bail-icon.svg">
+                                                            </a>
+                                                            <div class="livis-inner-header-user">
+                                                                <img src="../common/image/user-icon.svg">
+                                                            </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="modal-body w-100 h-100 d-flex justify-content-center align-items-center flex-column">
+              <div class="spinner-border text-primary" role="status">
+                <span data-i18n="loading" class="visually-hidden">Loading...</span>
+              </div>
+              <div data-i18n="please_wait" class="mt-3" id="spinner-text">
+                Please wait...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- health Modal -->
+    <div class="modal livis-health-modal fade start-process-modal" id="livis-health-modal" tabindex="-1" role="dialog"
+      aria-labelledby="myModalLabel2">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content p-2">
+          <div class="modal-header">
+            <div class="livis-health-header-left">
+              <!-- <a href="#"><img src="../common/image/Resize.svg" width="16" /></a> -->
+              <p data-i18n="health_check" class="modal-title pb-0">Health Check</p>
+            </div>
+            <div class="livis-health--header-right">
+              <div class="livis-health-action me-3">
+                <button data-i18n="hardware" id="livis-health-hardware-btn"
+                  class="btn livis-health-software-btn active-health-check-btn"
+                  onclick="toggleHealthCheckType('hardware')">Hardware</button>
+                <button data-i18n="software" id="livis-health-software-btn" class="btn livis-health-software-btn"
+                  onclick="toggleHealthCheckType('software')">Software</button>
+              </div>
+
+              <a href="#" style="display: flex;"><img src="../common/image/Close.svg" width="24"
+                  onclick="closeHealthModal()" /></a>
+
+            </div>
+          </div>
+
+          <div class="modal-body" style="text-align: center;">
+            <div class="livis-health-services-list" id="livis-health-hardware-list">
+              <div class="spinner-border spinner-border-check-part text-primary d-none" role="status" id="loader">
+                <span data-i18n="loading" class="visually-hidden">Loading...</span>
+              </div>
+              <div class="livis-health-service">
+                <p data-i18n="camera">Camera</p> <img src="../common/image/check-circle-icon.svg" />
+              </div>
+              <div class="livis-health-service">
+                <p data-i18n="co_bot">Co-Bot</p> <img src="../common/image/check-circle-icon.svg" />
+              </div>
+              <div class="livis-health-service">
+                <p data-i18n="plc_controller">PLC Controller</p> <img src="../common/image/cross-circle-icon.svg" />
+              </div>
+              <div class="livis-health-service">
+                <p data-i18n="storage">Storage</p> <img src="../common/image/check-circle-icon.svg" />
+              </div>
+              <div class="livis-health-service">
+                <p data-i18n="senser">Senser</p> <img src="../common/image/check-circle-icon.svg" />
+              </div>
+            </div>
+            <div class="livis-health-services-list d-none" id="livis-health-software-list">
+              <div class="spinner-border spinner-border-check-part text-primary " role="status" id="loader">
+                <span data-i18n="loading" class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- health Modal -->
+
+
+
+    <!-- start process modal  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="start-process-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 data-i18n="start_process" class="modal-title fs-5" id="exampleModalLabel">Start Process</h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              onclick="closedStartProcessModal()"></button> -->
+          </div>
+          <div class="modal-body">
+            <form id="start-process-form" class="start-process-form">
+              <!-- <input type="text" name="part_name" id="part_name" placeholder="Part Name"> -->
+              <div class="d-flex row">
+                <div class="col-md-12 " style="padding-right: 2rem;">
+                  <select name="part_name" id="part_name" placeholder="Part Name"
+                    class="w-100 border-0 bg-transparent dropdown-part" oninput="handleStartProcessFrom()">
+
+                  </select>
+                </div>
+              </div>
+              <div class="livis-search-select-dropdown-wrap" id="livis-searchable-dropdown-wrap">
+                <div class="d-flex row">
+                  <div class="col-md-10">
+                    <input type="text" name="batch_id" id="batch_id" placeholder="Batch No"
+                      oninput="handleStartProcessFrom()">
+                    <div class="livis-search-select-dropdown-list-wrap d-none" id="livis-searchable-dropdown-list">
+
+                    </div>
+                  </div>
+                  <label class="switch col-md-2">
+                    <input type="checkbox" id="toggleSwitch">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="d-flex row">
+                <div class="col-md-10">
+                  <input type="number" min="1" name="batch_size" id="batch_size" placeholder="Batch Size"
+                    oninput="handleStartProcessFrom()">
+                </div>
+                <label class="switch col-md-2">
+                  <input type="checkbox" id="auto_batching_size">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <div class="d-flex row">
+                <div class="col-md-10">
+                  <input type="number" min="500" name="inspection_interval" id="inspection_interval"
+                    placeholder="Toggle Switch to give Inspect Interval in ms">
+                  <input type="text" name="remarks" id="remarks" placeholder="Remarks">
+                </div>
+                <label class="switch col-md-2">
+                  <input type="checkbox" id="auto_inspect_button">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button data-i18n="close_btn" type="button" class="btn btn-secondary operator-panel-secondary-btn"
+              onclick="closedStartProcessModal()" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary operator-panel-primary-btn" disabled
+              id="start-process-form-submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Threshold modal  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal" id="threshold-modal"
+      tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title fs-5 text-center" id="exampleModalLabel">
+              <div>Class Threshold</div>
+              <div class="modal-subtitle">You can choose to save your changes, or you can also undo this action. </div>
+            </div>
+          </div>
+          <div class="modal-body ps-5">
+            <form id="threshold-form" class="threshold-form ">
+              <div class="row">
+                <div class="col-md-5">Parameter 1</div>
+                <div class="col-md-7">
+                  <input type="range" id="myRange" min="0" max="100" step="1" value="50"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>24</output>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">Parameter 1</div>
+                <div class="col-md-7">
+                  <input type="range" id="myRange" min="0" max="100" step="1" value="50"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>24</output>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary operator-panel-secondary-btn"
+              data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary operator-panel-primary-btn"
+              id="start-process-form-submit">Submit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- inspection summary modal  -->
+    <div class="modal livis-health-modal fade inspection-summary-modal" id="inspection-summary-modal" tabindex="-1"
+      role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document" id="inspection-summary-modal-ref">
+        <div class="modal-content p-2">
+          <div class="modal-header">
+            <div class="livis-health-header-left">
+              <a href="#"><img src="../common/image/Close.svg" width="16" onclick="closeSummaryModal()" /></a>
+              <a href="#"><img src="../common/image/Resize.svg" width="16" onclick="toggleSummaryModal()" /></a>
+              <p data-i18n="inspection_summary" class="modal-title">Inspection Summary</p>
+            </div>
+            <div class="livis-health--header-right livis-date-range-picker-wrap">
+              <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" id="date-range-picker"
+                class="date-range-picker invisible" />
+              <div class="d-flex date-range-picker-label-wrap">
+                <img src="../common/image/calendar.svg" alt="">
+                <label data-i18n="time" for="date-range-picker" class="date-range-picker-label">Time</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-body m-0 p-0">
+            <div class="row inspection-summary-table-heading m-0">
+              <div data-i18n="time" class="col-md-2">Time</div>
+              <div data-i18n="barcode" class="col-md-2">Barcode</div>
+              <div data-i18n="cycle_time" class="col-md-2">Cycle Time</div>
+              <div data-i18n="defect" class="col-md-2">Defect</div>
+              <div data-i18n="feature" class="col-md-2">Feature</div>
+              <div data-i18n="status" class="col-md-2">Status</div>
+            </div>
+            <div class="row inspection-summary-table-body m-0">
+              <div class="col-md-2">00:00:00</div>
+              <div class="col-md-2">012345678905</div>
+              <div class="col-md-2">12</div>
+              <div class="col-md-2">5</div>
+              <div class="col-md-2">--</div>
+              <div data-i18n="accepted" class="col-md-2 accepted">Accepted</div>
+            </div>
+            <div class="row inspection-summary-table-body m-0">
+              <div class="col-md-2">00:00:00</div>
+              <div class="col-md-2">012345678905</div>
+              <div class="col-md-2">12</div>
+              <div class="col-md-2">5</div>
+              <div class="col-md-2">--</div>
+              <div data-i18n="rejected" class="col-md-2 rejected">Rejected</div>
+            </div>
+          </div>
+
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div>
+
+
+    <!-- Intermediate report  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="intermediate-report-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 data-i18n="summary" class="modal-title fs-5" id="exampleModalLabel">Summary </h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <div class="row d-flex pt-3 px-3">
+              <div class="col-md-12 d-flex livis-discard-recipe-text justify-content-between">
+                <h5 data-i18n="overall_batch_result">Overall Batch Result:</h5>
+                <span id="batch-full-modal-overall-result"></span>
+
+              </div>
+              <div class="col-md-12 d-flex livis-discard-recipe-text justify-content-between">
+                <h5 data-i18n="total_inspection">Total Inspection:</h5> <span
+                  id="batch-full-modal-total-inspection"></span>
+              </div>
+              <div class="col-md-12 d-flex livis-discard-recipe-text accepted justify-content-between">
+                <h5 data-i18n="accepted_count">Accepted Count:</h5><span id="batch-full-modal-accepted-count"></span>
+              </div>
+              <div class="col-md-12 d-flex livis-discard-recipe-text rejected justify-content-between">
+                <h5 data-i18n="rejected_count">Rejected Count:</h5> <span id="batch-full-modal-rejected-count"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-around">
+            <button data-i18n="end_process_btn" type="button" onclick="endProcess()"
+              class="btn btn-secondary operator-panel-ternary-btn" data-bs-dismiss="modal">End Process</button>
+            <button data-i18n="continue_btn" type="button" onclick="continueBatch()"
+              class="btn btn-secondary operator-panel-secondary-btn" data-bs-dismiss="modal">Continue <span
+                id="continue-button-countdown"></span></button>
+            <button data-i18n="update_batch_btn" type="button" class="btn btn-primary operator-panel-primary-btn"
+              id="start-process-form-submit" onclick="showUpdateModal()">Update
+              Batch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intermediate report  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="calibration-status-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Calibration Expired </h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <div class="row d-flex pt-3 px-3">
+              <div class="col-md-12 d-flex livis-discard-recipe-text justify-content-between">
+                <h5>Your Calibration is expired.</h5>
+                <span id="batch-full-modal-overall-result"></span>
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-around">
+            <button type="button" onclick="continueWithoutCalibration()"
+              class="btn btn-secondary operator-panel-secondary-btn" id="continue-button-calibration"
+              data-bs-dismiss="modal">Continue without
+              Calibration <span></span></button>
+            <button type="button" onclick="redirectToCalibrate()" class="btn btn-primary operator-panel-primary-btn"
+              data-bs-dismiss="modal">Calibrate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Full modal  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="update-batch-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 data-i18n="batch_is_full" class="modal-title fs-5" id="exampleModalLabel">Batch Is Full</h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <form id="update-process-form" class="start-process-form">
+              <input type="text" name="part_name" id="update_part_name" placeholder="Part Name" disabled>
+              <input type="text" name="batch_id" id="update_batch_id" placeholder="Batch No" disabled>
+              <input type="number" name="batch_size" id="update_batch_size" placeholder="Batch Size">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button data-i18n="end_process_btn" type="button" onclick="endProcess()"
+              class="btn btn-secondary operator-panel-secondary-btn" data-bs-dismiss="modal">End
+              Process</button>
+            <button data-i18n="update_batch_btn" type="button" class="btn btn-primary operator-panel-primary-btn"
+              id="start-process-form-submit" onclick="updateBatchFullSize()">Update
+              Batch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- end process alert  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="end-process-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">End Process</h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <div data-i18n="" class="livis-discard-recipe-text pb-5">Do you want to end the process ?</div>
+
+            <div class="row d-flex  px-3">
+              <h5 data-i18n="batch_summary" class=" pb-2 fw-6">Batch Summary</h5>
+              <div class="col-md-6 livis-discard-recipe-text">
+                <span data-i18n="overall_result">Overall Result</span>: <span
+                  id="end-process-modal-overall-result"></span>
+              </div>
+              <div class="col-md-6 livis-discard-recipe-text">
+                <span data-i18n="total_inspection">Total Inspection</span>: <span
+                  id="end-process-modal-total-inspection"></span>
+              </div>
+              <div class="col-md-6 livis-discard-recipe-text accepted">
+                <span data-i18n="accepted_count">Accepted Count</span>: <span
+                  id="end-process-modal-accepted-count"></span>
+              </div>
+              <div class="col-md-6 livis-discard-recipe-text rejected">
+                <span data-i18n="rejected">Rejected</span>: <span id="end-process-modal-rejected-count"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button data-i18n="keep_it_btn" type="button" class="btn btn-secondary operator-panel-secondary-btn"
+              data-bs-dismiss="modal" onclick="cancelEndProcessModal()">No, Keep
+              it</button>
+            <button data-i18n="yes_end_btn" type="button" class="btn btn-primary operator-panel-ternary-btn"
+              id="start-process-form-submit" onclick="endProcess()">Yes,
+              End</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- hardware connectivity modal  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="hardware-connectivity-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title fs-5 text-center w-100" id="exampleModalLabel">
+
+              <img src="../common/image/hardware_connectivity_error.svg" alt="" width="25%">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                style="position: absolute; right: 4%;"></button>
+
+              <div>Hardware Device Connectivity Issue</div>
+              <div class="modal-subtitle fs-6">The following devices are not connected, please fix them to continue the
+                inspection operation seamlessly. </div>
+            </div>
+          </div>
+          <div class="modal-body ps-5">
+            <form id="hardware-connectivity-list" class="threshold-form ">
+              <div class="row">
+                <div class="col-md-5">Parameter 1</div>
+                <div class="col-md-7">
+                  <input type="range" id="myRange" min="0" max="100" step="1" value="50"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>24</output>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">Parameter 1</div>
+                <div class="col-md-7">
+                  <input type="range" id="myRange" min="0" max="100" step="1" value="50"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>24</output>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row w-100">
+              <div class="col-md-6"><button type="button" onclick="endProcess()"
+                  class="btn btn-secondary operator-panel-ternary-btn w-100" data-bs-dismiss="modal">End
+                  Process</button>
+              </div>
+              <div class="col-md-6"><button type="button" class="btn btn-primary operator-panel-primary-btn w-100"
+                  id="start-process-form-submit" onclick="byPassHardwareCheck()">Proceed</button>
+              </div>
+            </div>
+
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Image full screen view Modal  -->
+    <div class="modal livis-health-modal fade inspection-summary-modal" id="full-screen-modal" tabindex="-1"
+      role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen" role="document"
+        id="inspection-summary-modal-ref">
+        <div class="modal-content p-2">
+          <div class="modal-header">
+            <h1 data-i18n="image" class="modal-title fs-5" id="exampleModalLabel">Image</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body m-0 p-0" id="full-screen-image">
+
+          </div>
+
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div>
+
+    <!-- PD Data Entry modal  -->
+    <div data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade start-process-modal"
+      id="update-pd-data-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Enter Peripheral Device Data</h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <form id="pd-data-form" class="start-process-form">
+              <span class="mb-2 mt-2" id="pd-key"></span>
+              <input type="text" name="pd_data" id="pd_data" placeholder="Enter Value">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary operator-panel-primary-btn" id="start-process-form-submit"
+              onclick="updatePdData()">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../common/js/i18n.js"></script>
+    <script src="../common/js/bootstrap.min.js"></script>
+    <script src="../common/js/common.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+    <script src="./operator.js"></script>
+  </body>
+
+</html>
